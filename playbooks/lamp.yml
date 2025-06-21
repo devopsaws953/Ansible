@@ -1,5 +1,5 @@
 - name: Setup LAMP stack
-  hosts: web
+  hosts: appserver
   become: true
 
   tasks:
