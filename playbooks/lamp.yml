@@ -1,24 +1,35 @@
-- name: Setup LAMP stack
+---
+- name: Remove LAMP stack from Amazon Linux 2023
   hosts: appserver
   become: true
 
   tasks:
-    - name: Install packages
+    - name: Stop and disable Apache
+      service:
+        name: httpd
+        state: stopped
+        enabled: false
+      ignore_errors: true  # In case it's not installed
+
+    - name: Stop and disable MariaDB
+      service:
+        name: mariadb
+        state: stopped
+        enabled: false
+      ignore_errors: true
+
+    - name: Remove Apache, MariaDB, PHP packages
       dnf:
         name:
           - httpd
-          - mariadb105-server  # ✅ Correct package name for Amazon Linux 2023
+          - mariadb105-server
           - php
-        state: present
+        state: absent
 
-    - name: Start and enable Apache
-      service:
-        name: httpd
-        state: started
-        enabled: true
-
-    - name: Start and enable MariaDB
-      service:
-        name: mariadb
-        state: started
-        enabled: true
+    - name: Remove default Apache and PHP files (optional)
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/www/html/index.html
+        - /var/www/html/info.php
