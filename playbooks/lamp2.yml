@@ -1,9 +1,8 @@
 - name: Full LAMP Setup on Amazon Linux 2023
-  hosts: appserver
+  hosts: web
   become: true
 
   tasks:
-
     - name: Install Apache, PHP, MariaDB
       dnf:
         name:
@@ -25,9 +24,14 @@
         state: started
         enabled: true
 
+    - name: Install PyMySQL for MySQL modules
+      dnf:
+        name: python3-PyMySQL
+        state: present
+
     - name: Copy custom index.html to Apache root
       copy:
-        src: index.html
+        src: files/index.html
         dest: /var/www/html/index.html
         owner: apache
         group: apache
@@ -41,7 +45,7 @@
         group: apache
         mode: '0644'
 
-    - name: Secure MySQL (basic SQL commands)
+    - name: Remove test database
       mysql_db:
         name: test
         state: absent
