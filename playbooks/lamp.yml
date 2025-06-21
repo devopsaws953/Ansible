@@ -1,18 +1,24 @@
 - name: Setup LAMP stack
-  hosts: appserver
+  hosts: web
   become: true
 
   tasks:
     - name: Install packages
-      yum:
+      dnf:
         name:
           - httpd
-          - mariadb-server
+          - mariadb105-server  # ✅ Correct package name for Amazon Linux 2023
           - php
         state: present
 
-    - name: Start Apache
+    - name: Start and enable Apache
       service:
         name: httpd
+        state: started
+        enabled: true
+
+    - name: Start and enable MariaDB
+      service:
+        name: mariadb
         state: started
         enabled: true
