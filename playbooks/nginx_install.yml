@@ -25,19 +25,16 @@
       file:
         path: /usr/share/nginx/html
         state: absent
-        recurse: true
 
     - name: Remove Nginx configuration directory
       file:
         path: /etc/nginx
         state: absent
-        recurse: true
 
     - name: Remove Nginx log directory
       file:
         path: /var/log/nginx
         state: absent
-        recurse: true
 
     - name: Remove Nginx systemd service file (optional cleanup)
       file:
@@ -45,6 +42,5 @@
         state: absent
       ignore_errors: true
 
-    - name: Reload systemd daemon (if service file was removed)
+    - name: Reload systemd daemon
       command: systemctl daemon-reload
-      when: ansible_facts['os_family'] == "RedHat"
