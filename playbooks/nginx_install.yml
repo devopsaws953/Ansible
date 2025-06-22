@@ -1,5 +1,4 @@
 ---
----
 - name: Install and start Nginx on Amazon Linux 2023
   hosts: appserver
   become: true
