@@ -4,13 +4,12 @@
   become: true
 
   tasks:
-
     - name: Stop and disable Nginx service
       service:
         name: nginx
         state: stopped
         enabled: false
-      ignore_errors: true  # In case nginx is already removed or not installed
+      ignore_errors: true  # In case nginx is already uninstalled
 
     - name: Uninstall Nginx
       dnf:
@@ -25,4 +24,14 @@
     - name: Remove entire Nginx web root directory (optional cleanup)
       file:
         path: /usr/share/nginx/html
+        state: absent
+
+    - name: Remove Nginx config directory
+      file:
+        path: /etc/nginx
+        state: absent
+
+    - name: Remove Nginx log directory
+      file:
+        path: /var/log/nginx
         state: absent
