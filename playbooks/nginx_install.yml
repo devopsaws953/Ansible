@@ -1,31 +1,50 @@
 ---
-- name: Install and start Nginx on Amazon Linux 2023
+- name: Fully remove Nginx from Amazon Linux 2023
   hosts: appserver
   become: true
 
   tasks:
-    - name: Stop and disable Apache if it's running
+    - name: Stop Nginx service
       service:
-        name: httpd
+        name: nginx
         state: stopped
+      ignore_errors: true
+
+    - name: Disable Nginx service
+      service:
+        name: nginx
         enabled: false
       ignore_errors: true
 
-    - name: Install Nginx
+    - name: Uninstall Nginx package
       dnf:
         name: nginx
-        state: present
+        state: absent
 
-    - name: Start and enable Nginx service
-      service:
-        name: nginx
-        state: started
-        enabled: true
+    - name: Remove Nginx default web root
+      file:
+        path: /usr/share/nginx/html
+        state: absent
+        recurse: true
 
-    - name: Copy custom index.html (optional)
-      copy:
-        content: "<h1>Welcome to Nginx on Amazon Linux 2023!</h1>"
-        dest: /usr/share/nginx/html/index.html
-        owner: nginx
-        group: nginx
-        mode: '0644'
+    - name: Remove Nginx configuration directory
+      file:
+        path: /etc/nginx
+        state: absent
+        recurse: true
+
+    - name: Remove Nginx log directory
+      file:
+        path: /var/log/nginx
+        state: absent
+        recurse: true
+
+    - name: Remove Nginx systemd service file (optional cleanup)
+      file:
+        path: /usr/lib/systemd/system/nginx.service
+        state: absent
+      ignore_errors: true
+
+    - name: Reload systemd daemon (if service file was removed)
+      command: systemctl daemon-reload
+      when: ansible_facts['os_family'] == "RedHat"
