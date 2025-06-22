@@ -1,37 +1,24 @@
 ---
-- name: Remove Nginx from Amazon Linux 2023
+- name: Install and start Nginx on Amazon Linux 2023
   hosts: appserver
   become: true
 
   tasks:
-    - name: Stop and disable Nginx service
-      service:
-        name: nginx
-        state: stopped
-        enabled: false
-      ignore_errors: true  # In case nginx is already uninstalled
-
-    - name: Uninstall Nginx
+    - name: Install Nginx
       dnf:
         name: nginx
-        state: absent
+        state: present
 
-    - name: Remove default Nginx index.html (optional)
-      file:
-        path: /usr/share/nginx/html/index.html
-        state: absent
+    - name: Start and enable Nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: true
 
-    - name: Remove entire Nginx web root directory (optional cleanup)
-      file:
-        path: /usr/share/nginx/html
-        state: absent
-
-    - name: Remove Nginx config directory
-      file:
-        path: /etc/nginx
-        state: absent
-
-    - name: Remove Nginx log directory
-      file:
-        path: /var/log/nginx
-        state: absent
+    - name: Copy custom index.html (optional)
+      copy:
+        content: "<h1>Welcome to Nginx on Amazon Linux 2023!</h1>"
+        dest: /usr/share/nginx/html/index.html
+        owner: nginx
+        group: nginx
+        mode: '0644'
