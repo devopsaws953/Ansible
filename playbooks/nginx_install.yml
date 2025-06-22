@@ -1,9 +1,17 @@
 ---
+---
 - name: Install and start Nginx on Amazon Linux 2023
   hosts: appserver
   become: true
 
   tasks:
+    - name: Stop and disable Apache if it's running
+      service:
+        name: httpd
+        state: stopped
+        enabled: false
+      ignore_errors: true
+
     - name: Install Nginx
       dnf:
         name: nginx
