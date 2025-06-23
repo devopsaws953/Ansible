@@ -16,7 +16,7 @@
 
     - name: Create users
       user:
-        name: "{{ user_name }}"
+        name: "{{ item }}"
         state: present
         shell: /bin/bash
       loop:
@@ -24,4 +24,4 @@
         - bob
         - carol
       loop_control:
-        loop_var: user_name
+        label: "{{ item }}"
