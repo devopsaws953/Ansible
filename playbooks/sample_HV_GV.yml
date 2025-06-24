@@ -3,6 +3,10 @@
   become: true
 
   tasks:
+    - name: Set nginx index path based on OS family
+      set_fact:
+        nginx_index_path: "{{ '/usr/share/nginx/html/index.html' if ansible_os_family == 'RedHat' else '/var/www/html/index.html' }}"
+
     - name: Ensure Nginx is installed
       package:
         name: nginx
@@ -17,11 +21,11 @@
             <p>Running on port {{ nginx_port }}</p>
           </body>
           </html>
-        dest: /var/www/html/index.html
+        dest: "{{ nginx_index_path }}"
         mode: '0644'
 
-    - name: Ensure Nginx is started
+    - name: Ensure Nginx is started and enabled
       service:
         name: nginx
-        state: restarted
+        state: started
         enabled: true
