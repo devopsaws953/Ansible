@@ -1,6 +1,6 @@
 ---
 - name: Deploy custom message using group and host variables
-  hosts: webservers
+  hosts: appserver
   become: true
 
   tasks:
