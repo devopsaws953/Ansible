@@ -23,5 +23,5 @@
     - name: Ensure Nginx is started
       service:
         name: nginx
-        state: started
+        state: restarted
         enabled: true
