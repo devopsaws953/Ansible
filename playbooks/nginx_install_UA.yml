@@ -1,24 +1,25 @@
 ---
-- name: Install and configure Nginx with custom index page on both Amazon Linux and Ubuntu
+- name: Install and configure Nginx with custom index page on Amazon Linux and Ubuntu
   hosts: appserver
   become: true
 
   vars:
     nginx_index_content: "<h1>Welcome to Nginx from Ansible on {{ ansible_hostname }}!</h1>"
-    nginx_index_path: /usr/share/nginx/html/index.html
     nginx_index_mode: '0644'
 
   tasks:
-    - name: Set nginx user and group for Amazon Linux
+    - name: Set variables for Amazon Linux
       set_fact:
         nginx_owner: nginx
         nginx_group: nginx
+        nginx_index_path: /usr/share/nginx/html/index.html
       when: ansible_os_family == "RedHat"
 
-    - name: Set nginx user and group for Ubuntu
+    - name: Set variables for Ubuntu
       set_fact:
         nginx_owner: www-data
         nginx_group: www-data
+        nginx_index_path: /var/www/html/index.html
       when: ansible_os_family == "Debian"
 
     - name: Install Nginx on Amazon Linux
