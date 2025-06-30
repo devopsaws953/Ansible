@@ -1,24 +1,13 @@
-# Apache Configuration for Debian-based systems
-
-ServerName {{ ansible_hostname }}
-Listen 80
-
 <VirtualHost *:80>
     ServerAdmin webmaster@localhost
     DocumentRoot /var/www/html
 
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    <Directory /var/www/html>
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
 </VirtualHost>
-
-<Directory /var/www/html>
-    Options Indexes FollowSymLinks
-    AllowOverride None
-    Require all granted
-</Directory>
-
-# Include other configurations
-IncludeOptional mods-enabled/*.load
-IncludeOptional mods-enabled/*.conf
-IncludeOptional conf-enabled/*.conf
-IncludeOptional sites-enabled/*.conf
