@@ -1,0 +1,7 @@
+---
+- name: Configure Apache Web Server on all nodes
+  hosts: all
+  become: true
+
+  roles:
+    - apache

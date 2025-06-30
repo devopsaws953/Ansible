@@ -1,2 +1,13 @@
 ---
-# tasks file for apache
+- name: Set Apache config file path based on OS
+  set_fact:
+    apache_config_path: "{{ '/etc/httpd/conf/httpd.conf' if ansible_os_family == 'RedHat' else '/etc/apache2/apache2.conf' }}"
+
+- name: Deploy Apache configuration file
+  template:
+    src: apache.conf.j2
+    dest: "{{ apache_config_path }}"
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart apache
