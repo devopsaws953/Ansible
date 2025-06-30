@@ -1,2 +1,39 @@
 ---
-# tasks file for nginx
+- name: Install Nginx on Debian-based systems
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+  when: ansible_os_family == 'Debian'
+
+- name: Install Nginx on RedHat-based systems
+  yum:
+    name: nginx
+    state: present
+  when: ansible_os_family == 'RedHat'
+
+- name: Deploy Nginx config on Debian
+  template:
+    src: nginx_debian.conf.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: '0644'
+  when: ansible_os_family == 'Debian'
+  notify: restart nginx
+
+- name: Deploy Nginx config on RedHat
+  template:
+    src: nginx_redhat.conf.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: '0644'
+  when: ansible_os_family == 'RedHat'
+  notify: restart nginx
+
+- name: Ensure Nginx is started and enabled
+  service:
+    name: nginx
+    state: started
+    enabled: true
