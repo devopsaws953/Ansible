@@ -1,4 +1,16 @@
 ---
+- name: Install Apache on RedHat-based systems (Amazon Linux)
+  package:
+    name: httpd
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Install Apache on Debian-based systems (Ubuntu)
+  package:
+    name: apache2
+    state: present
+  when: ansible_os_family == "Debian"
+
 - name: Set Apache config file path based on OS
   set_fact:
     apache_config_path: "{{ '/etc/httpd/conf/httpd.conf' if ansible_os_family == 'RedHat' else '/etc/apache2/apache2.conf' }}"
