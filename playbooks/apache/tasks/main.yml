@@ -1,3 +1,4 @@
+---
 - name: Install Apache on RedHat-based systems (Amazon Linux)
   yum:
     name: httpd
@@ -11,24 +12,37 @@
     update_cache: yes
   when: ansible_os_family == 'Debian'
 
-- name: Copy Apache virtual host config
+- name: Copy Apache virtual host config (RedHat)
   template:
-    src: "{{ 'apache_redhat.conf.j2' if ansible_os_family == 'RedHat' else 'apache_debian.conf.j2' }}"
-    dest: "{{ '/etc/httpd/conf.d/custom.conf' if ansible_os_family == 'RedHat' else '/etc/apache2/sites-available/custom.conf' }}"
+    src: apache_redhat.conf.j2
+    dest: /etc/httpd/conf.d/custom.conf
     owner: root
     group: root
     mode: '0644'
+  when: ansible_os_family == 'RedHat'
+  notify: restart apache
 
-- name: Enable site config (Debian/Ubuntu only)
+- name: Copy Apache virtual host config (Debian)
+  template:
+    src: apache_debian.conf.j2
+    dest: /etc/apache2/sites-available/custom.conf
+    owner: root
+    group: root
+    mode: '0644'
+  when: ansible_os_family == 'Debian'
+  notify: restart apache
+
+- name: Enable site config (Debian)
   file:
     src: /etc/apache2/sites-available/custom.conf
     dest: /etc/apache2/sites-enabled/custom.conf
     state: link
-    force: true
+    force: yes
   when: ansible_os_family == 'Debian'
+  notify: restart apache
 
 - name: Ensure Apache is started and enabled
   service:
     name: "{{ 'httpd' if ansible_os_family == 'RedHat' else 'apache2' }}"
     state: started
-    enabled: true
+    enabled: yes
