@@ -11,13 +11,14 @@
     state: present
   when: ansible_os_family == "Debian"
 
-- name: Set Apache config file path based on OS
+- name: Set Apache config file path and template based on OS
   set_fact:
     apache_config_path: "{{ '/etc/httpd/conf/httpd.conf' if ansible_os_family == 'RedHat' else '/etc/apache2/apache2.conf' }}"
+    apache_template: "{{ 'apache_redhat.conf.j2' if ansible_os_family == 'RedHat' else 'apache_debian.conf.j2' }}"
 
 - name: Deploy Apache configuration file
   template:
-    src: apache.conf.j2
+    src: "{{ apache_template }}"
     dest: "{{ apache_config_path }}"
     owner: root
     group: root
