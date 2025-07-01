@@ -1,11 +1,5 @@
----
 - name: Install MySQL Server on Amazon Linux 2023
-  ansible.builtin.package:
+  ansible.builtin.yum:
     name: mysql-server
     state: present
-
-- name: Start and enable MySQL service
-  ansible.builtin.service:
-    name: mysqld
-    state: started
-    enabled: true
+  when: ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution'] == "Amazon"
