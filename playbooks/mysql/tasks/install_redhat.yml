@@ -1,0 +1,5 @@
+---
+- name: Install MySQL on RedHat-based systems
+  yum:
+    name: mariadb-server
+    state: present
