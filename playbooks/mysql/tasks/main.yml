@@ -1,8 +1,0 @@
----
-- name: Include MySQL install task based on OS
-  include_tasks: install_debian.yml
-  when: ansible_os_family == "Debian"
-
-- name: Include MySQL install task based on OS
-  include_tasks: install_redhat.yml
-  when: ansible_os_family == "RedHat"
