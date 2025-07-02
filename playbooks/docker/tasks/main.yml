@@ -16,3 +16,20 @@
     published_ports:
       - "8081:80"   # HostPort:ContainerPort
   notify: Restart Docker
+
+- name: Create temporary directory for custom index.html
+  file:
+    path: /tmp/custom_web
+    state: directory
+    mode: '0755'
+
+- name: Generate custom index.html from template
+  template:
+    src: index.html.j2
+    dest: /tmp/custom_web/index.html
+
+- name: Copy custom index.html into the running container
+  community.docker.docker_cp:
+    src: /tmp/custom_web/index.html
+    dest: /usr/share/nginx/html/index.html
+    container: nginx_demo
