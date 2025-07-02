@@ -1,7 +1,11 @@
-# roles/docker/tasks/main.yml
 ---
-- name: Include Docker install task based on OS
-  include_tasks: "install_{{ ansible_os_family | lower }}.yml"
+- name: Include Docker install task for Debian/Ubuntu
+  include_tasks: install_debian.yml
+  when: ansible_os_family == "Debian"
+
+- name: Include Docker install task for Amazon Linux
+  include_tasks: install_amazonlinux.yml
+  when: ansible_distribution == "Amazon"
 
 - name: Run a test container (Nginx)
   docker_container:
