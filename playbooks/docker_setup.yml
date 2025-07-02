@@ -1,0 +1,7 @@
+# docker_setup.yml
+---
+- name: Install and run Docker container on all nodes
+  hosts: all
+  become: true
+  roles:
+    - docker

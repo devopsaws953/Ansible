@@ -1,2 +1,6 @@
+# roles/docker/handlers/main.yml
 ---
-# handlers file for docker
+- name: Restart Docker
+  systemd:
+    name: docker
+    state: restarted

@@ -1,0 +1,18 @@
+# roles/docker/tasks/install_debian.yml
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Install Docker and dependencies on Debian/Ubuntu
+  apt:
+    name:
+      - docker.io
+      - python3-pip
+    state: present
+
+- name: Start and enable Docker service
+  systemd:
+    name: docker
+    enabled: yes
+    state: started

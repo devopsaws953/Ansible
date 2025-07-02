@@ -1,0 +1,17 @@
+# roles/docker/tasks/install_amazonlinux.yml
+---
+- name: Enable Docker in Amazon Linux extras
+  amazon.aws.amazon_linux_extras:
+    name: docker
+    state: enabled
+
+- name: Install Docker
+  yum:
+    name: docker
+    state: present
+
+- name: Start and enable Docker service
+  systemd:
+    name: docker
+    enabled: yes
+    state: started

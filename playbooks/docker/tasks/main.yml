@@ -1,2 +1,13 @@
+# roles/docker/tasks/main.yml
 ---
-# tasks file for docker
+- name: Include Docker install task based on OS
+  include_tasks: "install_{{ ansible_os_family | lower }}.yml"
+
+- name: Run a test container (Nginx)
+  docker_container:
+    name: nginx_demo
+    image: nginx:latest
+    state: started
+    ports:
+      - "8080:80"
+  notify: Restart Docker
