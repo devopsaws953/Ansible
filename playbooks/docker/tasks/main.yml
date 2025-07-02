@@ -7,11 +7,12 @@
   include_tasks: install_amazonlinux.yml
   when: ansible_distribution == "Amazon"
 
-- name: Run a test container (Nginx)
-  docker_container:
+- name: Run nginx container on a different port to avoid conflict
+  community.docker.docker_container:
     name: nginx_demo
     image: nginx:latest
     state: started
-    ports:
-      - "8081:80"
+    restart_policy: unless-stopped
+    published_ports:
+      - "8081:80"   # HostPort:ContainerPort
   notify: Restart Docker
