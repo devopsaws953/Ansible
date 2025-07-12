@@ -1,4 +1,4 @@
-tomcat_version: "9.0.89"
+tomcat_version: "9.0.107"
 
 java_package: >-
   {% if ansible_distribution == 'Amazon' %}
