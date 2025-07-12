@@ -1,4 +1,3 @@
----
 - name: Install required packages on Debian
   apt:
     name: "{{ item }}"
@@ -24,7 +23,7 @@
   when: ansible_os_family == "Debian"
 
 - name: Install Docker on Amazon Linux
-  amazon.aws.package:
+  yum:
     name: docker
     state: present
   when: ansible_distribution == "Amazon"
