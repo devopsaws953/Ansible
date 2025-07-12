@@ -1,0 +1,19 @@
+---
+- name: Create daemon.json file
+  copy:
+    dest: /etc/docker/daemon.json
+    content: |
+      {
+        "log-driver": "json-file",
+        "log-opts": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      }
+  notify: restart docker
+
+- name: Ensure Docker is enabled and running
+  service:
+    name: docker
+    state: started
+    enabled: true

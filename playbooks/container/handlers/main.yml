@@ -1,2 +1,5 @@
 ---
-# handlers file for container
+- name: restart docker
+  service:
+    name: docker
+    state: restarted

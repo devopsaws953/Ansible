@@ -1,2 +1,6 @@
 ---
-# tasks file for container
+- name: Install Docker tasks
+  import_tasks: install.yml
+
+- name: Configure Docker tasks
+  import_tasks: configure.yml

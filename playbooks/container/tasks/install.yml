@@ -1,0 +1,36 @@
+---
+- name: Install required packages on Debian
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+  when: ansible_os_family == "Debian"
+
+- name: Add Docker GPG key (Debian)
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Install Docker engine on Debian
+  apt:
+    name: docker.io
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Install Docker on Amazon Linux
+  amazon.aws.package:
+    name: docker
+    state: present
+  when: ansible_distribution == "Amazon"
+
+- name: Ensure Docker group exists on Amazon Linux
+  group:
+    name: docker
+    state: present
+  when: ansible_distribution == "Amazon"
