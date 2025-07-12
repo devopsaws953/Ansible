@@ -1,2 +1,16 @@
 ---
-# tasks file for tomcat
+- name: Include Java installation tasks
+  include_tasks: install_java.yml
+  tags: install
+
+- name: Include Maven installation tasks
+  include_tasks: install_maven.yml
+  tags: install
+
+- name: Include Tomcat setup tasks
+  include_tasks: setup_tomcat.yml
+  tags: setup
+
+- name: Include application deployment tasks
+  include_tasks: deploy_app.yml
+  tags: deploy

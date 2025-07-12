@@ -1,0 +1,6 @@
+---
+- name: Install Tomcat and Deploy raviLogin App
+  hosts: webservers
+  become: true
+  roles:
+    - tomcat

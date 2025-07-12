@@ -1,0 +1,5 @@
+---
+- name: Install Maven
+  package:
+    name: "{{ maven_package }}"
+    state: present
