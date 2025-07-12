@@ -1,10 +1,10 @@
 ---
-- hosts: _web
+- hosts: __web
   become: true
   roles:
     - webserver
 
-- hosts: _db
+- hosts: __db
   become: true
   roles:
     - dbserver
