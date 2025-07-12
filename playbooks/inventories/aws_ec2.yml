@@ -1,12 +1,12 @@
 plugin: amazon.aws.aws_ec2
 regions:
   - us-east-1
+hostnames:
+  - public_dns_name
+keyed_groups:
+  - key: tags.Role
+    prefix: _
 filters:
   tag:Role:
     - web
     - db
-hostnames:
-  - Public DNS
-keyed_groups:
-  - key: tags.Role
-    prefix: _     # <-- empty string here, not underscore
