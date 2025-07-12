@@ -15,7 +15,7 @@
 - name: Deploy raviLogin.war to Tomcat
   copy:
     remote_src: yes
-    src: /tmp/raviLogin/target/raviLogin.war
+    src: /tmp/raviLogin/target/raviLogin-1.0.war
     dest: /opt/tomcat/webapps/raviLogin.war
     owner: tomcat
     group: tomcat
