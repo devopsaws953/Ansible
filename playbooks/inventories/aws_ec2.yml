@@ -6,7 +6,7 @@ filters:
     - web
     - db
 hostnames:
-  - public_dns_name
+  - Public DNS
 keyed_groups:
   - key: tags.Role
     prefix: _     # <-- empty string here, not underscore
