@@ -1,6 +1,6 @@
 ---
 - name: Install and Configure Nginx Web Server
-  hosts: nodes
+  hosts: webservers
   become: true
   roles:
     - webnginx
