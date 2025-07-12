@@ -5,8 +5,8 @@ filters:
   tag:Role:
     - web
     - db
+hostnames:
+  - public_dns_name
 keyed_groups:
   - key: tags.Role
     prefix: _
-hostnames:
-  - public_dns_name
