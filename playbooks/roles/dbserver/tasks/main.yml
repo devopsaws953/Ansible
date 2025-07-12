@@ -1,2 +1,15 @@
 ---
-# tasks file for roles/dbserver
+- name: Install PostgreSQL
+  package:
+    name: postgresql
+    state: present
+
+- name: Start and enable PostgreSQL
+  service:
+    name: postgresql
+    state: started
+    enabled: yes
+
+- name: Show DB server port
+  debug:
+    msg: "DB server is listening on port {{ db_port }}"

@@ -1,8 +1,11 @@
-- name: Configure EC2 hosts dynamically
+---
+- name: Deploy roles based on EC2 tags
   hosts: all
   become: true
+
   roles:
     - role: webserver
       when: "'web' in group_names"
+
     - role: dbserver
       when: "'db' in group_names"
