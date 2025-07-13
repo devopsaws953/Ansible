@@ -1,11 +1,10 @@
----
 plugin: amazon.aws.aws_ec2
 regions:
-  - us-east-1  # change to your region
+  - us-east-1  # or your region
 filters:
   tag:Role: web
 hostnames:
-  - public-ip-address  # note the dashes instead of underscores!
+  - public_dns_name
 keyed_groups:
   - key: tags.Role
     prefix: tag_Role
