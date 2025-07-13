@@ -7,4 +7,4 @@ keyed_groups:
   - key: tags.Role
     prefix: tag_Role
 hostnames:
-  - tag:Name
+  - public_ip_address
