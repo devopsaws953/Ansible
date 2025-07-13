@@ -8,6 +8,4 @@ hostnames:
   - public-ip-address  # note the dashes instead of underscores!
 keyed_groups:
   - key: tags.Role
-prefix: tag_Role
-hostnames:
-  - public_ip_address
+    prefix: tag_Role
