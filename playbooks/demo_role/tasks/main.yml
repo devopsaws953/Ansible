@@ -1,2 +1,7 @@
----
-# tasks file for demo_role
+- name: Create secret file with encrypted content
+  template:
+    src: secret.j2
+    dest: /etc/demo_secret.txt
+    owner: root
+    group: root
+    mode: '0600'

@@ -1,6 +1,0 @@
----
-- name: Deploy Web Server to Web Nodes
-  hosts: tag_Role_web
-  become: true
-  roles:
-    - webserver
